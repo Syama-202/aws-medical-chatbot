@@ -1,0 +1,492 @@
+{
+  "botName": "MedicalChatbot",
+  "description": "AI-powered medical assistant for analyzing prescriptions and answering medical queries",
+  "roleArn": "arn:aws:iam::ACCOUNT_ID:role/service-role/AmazonLexServiceRole-MedicalChatbot",
+  "dataPrivacy": {
+    "childDirected": false
+  },
+  "idleSessionTTLInSeconds": 300,
+  "botLocales": [
+    {
+      "localeId": "en_US",
+      "description": "English (US) locale for medical chatbot",
+      "nluIntentConfidenceThreshold": 0.4,
+      "voiceSettings": {
+        "voiceId": "Joanna",
+        "engine": "neural"
+      },
+      "slotTypes": [
+        {
+          "slotTypeName": "MedicalConditions",
+          "description": "Common medical conditions",
+          "slotTypeValues": [
+            {
+              "sampleValue": {
+                "value": "diabetes"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "hypertension"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "asthma"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "arthritis"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "depression"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "anxiety"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "migraine"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "allergies"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "insomnia"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "back pain"
+              }
+            }
+          ],
+          "valueSelectionStrategy": "TOP_RESOLUTION",
+          "parentSlotTypeSignature": "AMAZON.AlphaNumeric"
+        },
+        {
+          "slotTypeName": "Medications",
+          "description": "Common medications",
+          "slotTypeValues": [
+            {
+              "sampleValue": {
+                "value": "ibuprofen"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "acetaminophen"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "aspirin"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "metformin"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "lisinopril"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "atorvastatin"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "omeprazole"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "levothyroxine"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "amlodipine"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "sertraline"
+              }
+            }
+          ],
+          "valueSelectionStrategy": "TOP_RESOLUTION",
+          "parentSlotTypeSignature": "AMAZON.AlphaNumeric"
+        },
+        {
+          "slotTypeName": "Symptoms",
+          "description": "Common medical symptoms",
+          "slotTypeValues": [
+            {
+              "sampleValue": {
+                "value": "headache"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "fever"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "cough"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "nausea"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "dizziness"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "fatigue"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "chest pain"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "shortness of breath"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "abdominal pain"
+              }
+            },
+            {
+              "sampleValue": {
+                "value": "joint pain"
+              }
+            }
+          ],
+          "valueSelectionStrategy": "TOP_RESOLUTION",
+          "parentSlotTypeSignature": "AMAZON.AlphaNumeric"
+        }
+      ],
+      "intents": [
+        {
+          "intentName": "AnalyzePrescription",
+          "description": "Analyze uploaded medical prescriptions",
+          "sampleUtterances": [
+            {
+              "utterance": "Can you analyze this prescription"
+            },
+            {
+              "utterance": "What does this prescription contain"
+            },
+            {
+              "utterance": "Review my medication list"
+            },
+            {
+              "utterance": "Check this prescription for me"
+            },
+            {
+              "utterance": "Analyze the uploaded document"
+            },
+            {
+              "utterance": "What medications are in this prescription"
+            },
+            {
+              "utterance": "Help me understand this prescription"
+            },
+            {
+              "utterance": "Process this medical document"
+            }
+          ],
+          "slots": [
+            {
+              "slotName": "DocumentType",
+              "description": "Type of medical document",
+              "slotTypeName": "AMAZON.AlphaNumeric",
+              "valueElicitationSetting": {
+                "slotConstraint": "Optional",
+                "promptSpecification": {
+                  "messageGroupsList": [
+                    {
+                      "message": {
+                        "plainTextMessage": {
+                          "value": "What type of document would you like me to analyze?"
+                        }
+                      }
+                    }
+                  ],
+                  "maxRetries": 2
+                }
+              }
+            }
+          ],
+          "intentConfirmationSetting": {
+            "promptSpecification": {
+              "messageGroupsList": [
+                {
+                  "message": {
+                    "plainTextMessage": {
+                      "value": "I'll analyze your prescription now. Please wait while I process the document."
+                    }
+                  }
+                }
+              ],
+              "maxRetries": 1
+            },
+            "declinationResponse": {
+              "messageGroupsList": [
+                {
+                  "message": {
+                    "plainTextMessage": {
+                      "value": "Okay, I won't analyze the prescription. Is there anything else I can help you with?"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "fulfillmentCodeHook": {
+            "enabled": true
+          }
+        },
+        {
+          "intentName": "MedicalQuery",
+          "description": "Answer general medical questions",
+          "sampleUtterances": [
+            {
+              "utterance": "What is {condition}"
+            },
+            {
+              "utterance": "Tell me about {medication}"
+            },
+            {
+              "utterance": "What are the symptoms of {condition}"
+            },
+            {
+              "utterance": "How do I treat {symptom}"
+            },
+            {
+              "utterance": "What causes {condition}"
+            },
+            {
+              "utterance": "Is {medication} safe"
+            },
+            {
+              "utterance": "What are the side effects of {medication}"
+            },
+            {
+              "utterance": "I have {symptom} what should I do"
+            },
+            {
+              "utterance": "Can you help with medical information"
+            },
+            {
+              "utterance": "I need medical advice about {condition}"
+            }
+          ],
+          "slots": [
+            {
+              "slotName": "condition",
+              "description": "Medical condition being asked about",
+              "slotTypeName": "MedicalConditions",
+              "valueElicitationSetting": {
+                "slotConstraint": "Optional"
+              }
+            },
+            {
+              "slotName": "medication",
+              "description": "Medication being asked about",
+              "slotTypeName": "Medications",
+              "valueElicitationSetting": {
+                "slotConstraint": "Optional"
+              }
+            },
+            {
+              "slotName": "symptom",
+              "description": "Symptom being described",
+              "slotTypeName": "Symptoms",
+              "valueElicitationSetting": {
+                "slotConstraint": "Optional"
+              }
+            }
+          ],
+          "fulfillmentCodeHook": {
+            "enabled": true
+          }
+        },
+        {
+          "intentName": "SymptomChecker",
+          "description": "Help users understand their symptoms",
+          "sampleUtterances": [
+            {
+              "utterance": "I have {symptom}"
+            },
+            {
+              "utterance": "I'm experiencing {symptom}"
+            },
+            {
+              "utterance": "What could cause {symptom}"
+            },
+            {
+              "utterance": "I'm feeling {symptom}"
+            },
+            {
+              "utterance": "Help me with {symptom}"
+            },
+            {
+              "utterance": "I've been having {symptom}"
+            },
+            {
+              "utterance": "What should I do about {symptom}"
+            },
+            {
+              "utterance": "Is {symptom} serious"
+            },
+            {
+              "utterance": "Check my symptoms"
+            },
+            {
+              "utterance": "Symptom analysis"
+            }
+          ],
+          "slots": [
+            {
+              "slotName": "symptom",
+              "description": "Primary symptom",
+              "slotTypeName": "Symptoms",
+              "valueElicitationSetting": {
+                "slotConstraint": "Required",
+                "promptSpecification": {
+                  "messageGroupsList": [
+                    {
+                      "message": {
+                        "plainTextMessage": {
+                          "value": "What symptom are you experiencing?"
+                        }
+                      }
+                    }
+                  ],
+                  "maxRetries": 2
+                }
+              }
+            },
+            {
+              "slotName": "duration",
+              "description": "How long the symptom has been present",
+              "slotTypeName": "AMAZON.Duration",
+              "valueElicitationSetting": {
+                "slotConstraint": "Optional",
+                "promptSpecification": {
+                  "messageGroupsList": [
+                    {
+                      "message": {
+                        "plainTextMessage": {
+                          "value": "How long have you been experiencing this symptom?"
+                        }
+                      }
+                    }
+                  ],
+                  "maxRetries": 1
+                }
+              }
+            }
+          ],
+          "fulfillmentCodeHook": {
+            "enabled": true
+          }
+        },
+        {
+          "intentName": "GetHelp",
+          "description": "Provide help and guidance to users",
+          "sampleUtterances": [
+            {
+              "utterance": "help"
+            },
+            {
+              "utterance": "what can you do"
+            },
+            {
+              "utterance": "how do I use this"
+            },
+            {
+              "utterance": "what are your capabilities"
+            },
+            {
+              "utterance": "show me what you can do"
+            },
+            {
+              "utterance": "I need help"
+            },
+            {
+              "utterance": "guide me"
+            },
+            {
+              "utterance": "instructions"
+            },
+            {
+              "utterance": "how does this work"
+            },
+            {
+              "utterance": "tell me about yourself"
+            }
+          ],
+          "fulfillmentCodeHook": {
+            "enabled": false
+          },
+          "intentClosingSetting": {
+            "closingResponse": {
+              "messageGroupsList": [
+                {
+                  "message": {
+                    "plainTextMessage": {
+                      "value": "I'm your AI medical assistant! I can:\\n\\n\u2022 Analyze prescriptions and medical documents\\n\u2022 Answer medical questions\\n\u2022 Help with symptom checking\\n\u2022 Provide drug information\\n\\nJust ask me a question or upload a medical document to get started. Remember, I provide informational assistance only and cannot replace professional medical advice."
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "intentName": "FallbackIntent",
+          "description": "Handle unrecognized user inputs",
+          "parentIntentSignature": "AMAZON.FallbackIntent",
+          "fulfillmentCodeHook": {
+            "enabled": true
+          }
+        }
+      ]
+    }
+  ],
+  "botTags": {
+    "Environment": "Production",
+    "Application": "MedicalChatbot",
+    "Department": "Healthcare"
+  },
+  "testBotAliasTags": {
+    "Environment": "Testing"
+  }
+}
